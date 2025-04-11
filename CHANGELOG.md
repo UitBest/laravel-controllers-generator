@@ -1,9 +1,9 @@
 # Changelog
 
-All notable changes to `laravel-models-generator` will be documented in this file.
+All notable changes to `laravel-controllers-generator` will be documented in this file.
 
 ## Unreleased
 
 ### Features
 
-- Copied the `laravel-models-generator` project to this project.
+- Copied the `laravel-controllers-generator` project to this project.

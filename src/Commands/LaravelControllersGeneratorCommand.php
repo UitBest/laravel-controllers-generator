@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelControllersGenerator\Commands;
+namespace TimoCuijpers\LaravelControllersGenerator\Commands;
 
 use Doctrine\DBAL\Exception;
-use GiacomoMasseroni\LaravelModelsGenerator\Drivers\DriverFacade;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Entity;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Table;
-use GiacomoMasseroni\LaravelModelsGenerator\Exceptions\DatabaseDriverNotFound;
-use GiacomoMasseroni\LaravelModelsGenerator\Writers\WriterInterface;
+use TimoCuijpers\LaravelControllersGenerator\Drivers\DriverFacade;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Entity;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Table;
+use TimoCuijpers\LaravelControllersGenerator\Exceptions\DatabaseDriverNotFound;
+use TimoCuijpers\LaravelControllersGenerator\Writers\WriterInterface;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Filesystem\Filesystem;
 
 class LaravelControllersGeneratorCommand extends Command
 {
-    public $signature = 'laravel-models-generator:generate
+    public $signature = 'laravel-controllers-generator:generate
                         {--s|schema= : The name of the database}
                         {--c|connection= : The name of the connection}
                         {--t|table= : The name of the table}';
@@ -26,7 +26,7 @@ class LaravelControllersGeneratorCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Generate models from existing database';
+    protected $description = 'Generate controllers from generated models';
 
     private ?string $singleEntityToCreate = null;
 
@@ -52,7 +52,7 @@ class LaravelControllersGeneratorCommand extends Command
 
         $dbTables = $connector->listTables();
 
-        $dbViews = config('models-generator.generate_views', false) ? $connector->listViews() : [];
+        $dbViews = config('controllers-generator.generate_views', false) ? $connector->listViews() : [];
 
         if (count($dbTables) + count($dbViews) == 0) {
             $this->warn('There are no tables and/or views in the connection you used. Please check the config file.');
@@ -62,20 +62,20 @@ class LaravelControllersGeneratorCommand extends Command
 
         $fileSystem = new Filesystem;
 
-        $path = $this->sanitizeBaseClassesPath(config('models-generator.path', app_path('Models')));
+        $path = $this->sanitizeBaseClassesPath(config('controllers-generator.path', app_path('Models')));
 
-        if (config('models-generator.clean_models_directory_before_generation', true)) {
+        if (config('controllers-generator.clean_models_directory_before_generation', true)) {
             $fileSystem->cleanDirectory($path);
         }
 
         foreach (array_merge($dbTables, $dbViews) as $name => $dbEntity) {
             if ($this->entityToGenerate($name)) {
-                $createBaseClass = config('models-generator.base_files.enabled', false);
+                $createBaseClass = config('controllers-generator.base_files.enabled', false);
                 if ($createBaseClass) {
                     $baseClassesPath = $path.DIRECTORY_SEPARATOR.'Base';
                     $this->createBaseClassesFolder($baseClassesPath);
-                    $dbEntity->abstract = config('models-generator.base_files.abstract', false);
-                    $dbEntity->namespace = config('models-generator.namespace', 'App\Models').'\\Base';
+                    $dbEntity->abstract = config('controllers-generator.base_files.abstract', false);
+                    $dbEntity->namespace = config('controllers-generator.namespace', 'App\Models').'\\Base';
                     $fileName = $dbEntity->className.'.php';
                     $fileSystem->put($baseClassesPath.DIRECTORY_SEPARATOR.$fileName, $this->modelContent($dbEntity->className, $dbEntity));
 
@@ -118,7 +118,7 @@ class LaravelControllersGeneratorCommand extends Command
             $arImports = [];
 
             if ($dbEntity->importLaravelModel()) {
-                $arImports[] = config('models-generator.parent', 'Illuminate\Database\Eloquent\Model');
+                $arImports[] = config('controllers-generator.parent', 'Illuminate\Database\Eloquent\Model');
             }
 
             if (count($dbEntity->belongsTo) > 0) {
@@ -159,7 +159,7 @@ class LaravelControllersGeneratorCommand extends Command
                 $dbEntity->fixRelationshipsName();
             }
 
-            $versionedWriter = 'GiacomoMasseroni\LaravelModelsGenerator\Writers\Laravel'.$this->resolveLaravelVersion().'\\Writer';
+            $versionedWriter = 'TimoCuijpers\LaravelControllersGenerator\Writers\Laravel'.$this->resolveLaravelVersion().'\\Writer';
             /** @var WriterInterface $writer */
             $writer = new $versionedWriter($className, $dbEntity, $content);
 
@@ -188,7 +188,7 @@ class LaravelControllersGeneratorCommand extends Command
 
     private function entityToGenerate(string $entity): bool
     {
-        return ! in_array($entity, config('models-generator.except', [])) && $this->singleEntityToCreate === null || ($this->singleEntityToCreate && $this->singleEntityToCreate === $entity);
+        return ! in_array($entity, config('controllers-generator.except', [])) && $this->singleEntityToCreate === null || ($this->singleEntityToCreate && $this->singleEntityToCreate === $entity);
     }
 
     private function sanitizeBaseClassesPath(string $path): string

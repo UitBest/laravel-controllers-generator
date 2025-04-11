@@ -18,13 +18,13 @@ use Doctrine\DBAL\Types\SmallIntType;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\DBAL\Types\Type;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Entity;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Entity;
 use Illuminate\Support\Str;
 
 if (! function_exists('dbEntityNameToModelName')) {
     function dbEntityNameToModelName(string $dbEntityName): string
     {
-        return ucfirst(Str::camel(Str::singular(str_replace(config('models-generator.table_prefix', ''), '', $dbEntityName))));
+        return ucfirst(Str::camel(Str::singular(str_replace(config('controllers-generator.table_prefix', ''), '', $dbEntityName))));
     }
 }
 
@@ -72,7 +72,7 @@ if (! function_exists('isRelationshipToBeAdded')) {
     function isRelationshipToBeAdded(string $tableOfStartingRelationship, string $tableOfRelationship): bool
     {
         /** @var array<string, array<string>> $excludeRelationships */
-        $excludeRelationships = config('models-generator.exclude_relationships', []);
+        $excludeRelationships = config('controllers-generator.exclude_relationships', []);
 
         return ! isset($excludeRelationships[$tableOfStartingRelationship]) || (in_array($tableOfRelationship, $excludeRelationships[$tableOfStartingRelationship]) === false);
     }

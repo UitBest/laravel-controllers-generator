@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator\Enums;
+namespace TimoCuijpers\LaravelControllersGenerator\Enums;
 
 enum ColumnTypeEnum: string
 {

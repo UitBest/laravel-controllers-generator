@@ -2,6 +2,6 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator;
+namespace TimoCuijpers\LaravelControllersGenerator;
 
 class LaravelControllersGenerator {}

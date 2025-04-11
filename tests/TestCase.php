@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator\Tests;
+namespace TimoCuijpers\LaravelControllersGenerator\Tests;
 
-use GiacomoMasseroni\LaravelModelsGenerator\LaravelModelsGeneratorServiceProvider;
+use TimoCuijpers\LaravelControllersGenerator\LaravelControllersGeneratorServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -15,14 +15,14 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'GiacomoMasseroni\\LaravelModelsGenerator\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'TimoCuijpers\\LaravelControllersGenerator\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            LaravelModelsGeneratorServiceProvider::class,
+            LaravelControllersGeneratorServiceProvider::class,
         ];
     }
 
@@ -31,7 +31,7 @@ class TestCase extends Orchestra
         config()->set('database.default', 'testing');
 
         /*
-        $migration = include __DIR__.'/../database/migrations/create_laravel-models-generator_table.php.stub';
+        $migration = include __DIR__.'/../database/migrations/create_laravel-controllers-generator_table.php.stub';
         $migration->up();
         */
     }

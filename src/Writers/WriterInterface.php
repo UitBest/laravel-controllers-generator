@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator\Writers;
+namespace TimoCuijpers\LaravelControllersGenerator\Writers;
 
 interface WriterInterface
 {

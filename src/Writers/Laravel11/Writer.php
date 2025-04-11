@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator\Writers\Laravel11;
+namespace TimoCuijpers\LaravelControllersGenerator\Writers\Laravel11;
 
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Property;
-use GiacomoMasseroni\LaravelModelsGenerator\Writers\WriterInterface;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Property;
+use TimoCuijpers\LaravelControllersGenerator\Writers\WriterInterface;
 use Illuminate\Support\Str;
 
-class Writer extends \GiacomoMasseroni\LaravelModelsGenerator\Writers\Writer implements WriterInterface
+class Writer extends \TimoCuijpers\LaravelControllersGenerator\Writers\Writer implements WriterInterface
 {
     public function imports(): string
     {
@@ -21,7 +21,7 @@ class Writer extends \GiacomoMasseroni\LaravelModelsGenerator\Writers\Writer imp
 
     public function rules(): string
     {
-        if (count($this->entity->rules) > 0 && config('models-generator.rules')) {
+        if (count($this->entity->rules) > 0 && config('controllers-generator.rules')) {
             $this->prevElementWasNotEmpty = true;
 
             $body = "\n"."\n".$this->spacer.'/**'."\n";
@@ -31,7 +31,7 @@ class Writer extends \GiacomoMasseroni\LaravelModelsGenerator\Writers\Writer imp
             $body .= $this->spacer.' */'."\n";
             $body .= $this->spacer.'public array $rules = ['."\n";
             foreach ($this->entity->rules as $column => $rules) {
-                if (config('models-generator.rules_format', 'string') === 'array') {
+                if (config('controllers-generator.rules_format', 'string') === 'array') {
                     $rules = array_map(function (string $rule) {
                         return '\''.$rule.'\'';
                     }, $rules);
@@ -61,7 +61,7 @@ class Writer extends \GiacomoMasseroni\LaravelModelsGenerator\Writers\Writer imp
             $this->prevElementWasNotEmpty = true;
 
             return "\n".' *'."\n".implode("\n", array_map(function (Property $property) {
-                return ' * @property'.($property->readOnly ? '-read' : '').' '.$property->return.' '.$property->field.(config('models-generator.add_comments_in_phpdocs', true) && ! empty($property->comment) ? " ({$property->comment})" : '');
+                return ' * @property'.($property->readOnly ? '-read' : '').' '.$property->return.' '.$property->field.(config('controllers-generator.add_comments_in_phpdocs', true) && ! empty($property->comment) ? " ({$property->comment})" : '');
             }, $this->entity->properties));
         }
 
@@ -98,7 +98,7 @@ class Writer extends \GiacomoMasseroni\LaravelModelsGenerator\Writers\Writer imp
         $body = '';
         $this->prevElementWasNotEmpty = false;
 
-        if (config('models-generator.primary_key')) {
+        if (config('controllers-generator.primary_key')) {
             $this->prevElementWasNotEmpty = true;
 
             if ($this->entity->primaryKey !== null) {
@@ -131,8 +131,8 @@ class Writer extends \GiacomoMasseroni\LaravelModelsGenerator\Writers\Writer imp
             $body .= $this->spacer.'{'."\n";
             $body .= str_repeat($this->spacer, 2).'return ['."\n";
             foreach ($this->entity->casts as $column => $type) {
-                if (array_key_exists($column, (array) config('models-generator.enums_casting', []))) {
-                    $type = '\\'.config('models-generator.enums_casting', [])[$column].'::class';
+                if (array_key_exists($column, (array) config('controllers-generator.enums_casting', []))) {
+                    $type = '\\'.config('controllers-generator.enums_casting', [])[$column].'::class';
                 } else {
                     $type = '\''.$type.'\'';
                 }

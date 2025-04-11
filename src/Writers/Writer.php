@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator\Writers;
+namespace TimoCuijpers\LaravelControllersGenerator\Writers;
 
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Entity;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Entity;
 
 abstract class Writer implements WriterInterface
 {
@@ -68,12 +68,12 @@ abstract class Writer implements WriterInterface
 
     public function namespace(): string
     {
-        return $this->entity->namespace ?? (string) config('models-generator.namespace', 'App\Models');
+        return $this->entity->namespace ?? (string) config('controllers-generator.namespace', 'App\Models');
     }
 
     public function strict(): string
     {
-        return config('models-generator.strict_types', true) ? "\n".'declare(strict_types=1);'."\n" : '';
+        return config('controllers-generator.strict_types', true) ? "\n".'declare(strict_types=1);'."\n" : '';
     }
 
     public function body(): string
@@ -109,7 +109,7 @@ abstract class Writer implements WriterInterface
         $this->prevElementWasNotEmpty = true;
 
         if ($this->entity->showTimestampsProperty && $this->entity->timestamps) {
-            $timestampsFields = config('models-generator.timestamps.fields', []);
+            $timestampsFields = config('controllers-generator.timestamps.fields', []);
             if (! empty($timestampsFields['created_at'])) {
                 $content .= "\n".$this->spacer.'public const CREATED_AT = \''.$timestampsFields['created_at'].'\';'."\n";
             }
@@ -117,8 +117,8 @@ abstract class Writer implements WriterInterface
                 $content .= "\n".$this->spacer.'public const UPDATED_AT = \''.$timestampsFields['updated_at'].'\';'."\n";
             }
 
-            if (! empty(config('models-generator.timestamps.format', null))) {
-                $content .= "\n".$this->spacer.'protected $dateFormat = \''.config('models-generator.timestamps.format').'\';'."\n";
+            if (! empty(config('controllers-generator.timestamps.format', null))) {
+                $content .= "\n".$this->spacer.'protected $dateFormat = \''.config('controllers-generator.timestamps.format').'\';'."\n";
             }
         }
 

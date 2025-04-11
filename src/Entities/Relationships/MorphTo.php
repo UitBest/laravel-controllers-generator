@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator\Entities\Relationships;
+namespace TimoCuijpers\LaravelControllersGenerator\Entities\Relationships;
 
-use GiacomoMasseroni\LaravelModelsGenerator\Contracts\RelationshipInterface;
+use TimoCuijpers\LaravelControllersGenerator\Contracts\RelationshipInterface;
 
 class MorphTo implements RelationshipInterface
 {

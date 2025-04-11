@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator\Drivers\MySQL;
+namespace TimoCuijpers\LaravelControllersGenerator\Drivers\MySQL;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\Column;
-use GiacomoMasseroni\LaravelModelsGenerator\Concerns\DBALable;
-use GiacomoMasseroni\LaravelModelsGenerator\Contracts\DriverConnectorInterface;
-use GiacomoMasseroni\LaravelModelsGenerator\Drivers\DriverConnector;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Property;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\View;
+use TimoCuijpers\LaravelControllersGenerator\Concerns\DBALable;
+use TimoCuijpers\LaravelControllersGenerator\Contracts\DriverConnectorInterface;
+use TimoCuijpers\LaravelControllersGenerator\Drivers\DriverConnector;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Property;
+use TimoCuijpers\LaravelControllersGenerator\Entities\View;
 use Illuminate\Support\Facades\DB;
 
 class Connector extends DriverConnector implements DriverConnectorInterface

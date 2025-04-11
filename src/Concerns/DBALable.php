@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator\Concerns;
+namespace TimoCuijpers\LaravelControllersGenerator\Concerns;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
@@ -24,18 +24,18 @@ use Doctrine\DBAL\Types\SmallIntType;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\DBAL\Types\Type;
-use GiacomoMasseroni\LaravelModelsGenerator\Contracts\DriverConnectorInterface;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Entity;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\PrimaryKey;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Property;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Relationships\BelongsTo;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Relationships\BelongsToMany;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Relationships\HasMany;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Relationships\MorphMany;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Relationships\MorphTo;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Table;
-use GiacomoMasseroni\LaravelModelsGenerator\Enums\ColumnTypeEnum;
-use GiacomoMasseroni\LaravelModelsGenerator\Helpers\NamingHelper;
+use TimoCuijpers\LaravelControllersGenerator\Contracts\DriverConnectorInterface;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Entity;
+use TimoCuijpers\LaravelControllersGenerator\Entities\PrimaryKey;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Property;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\BelongsTo;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\BelongsToMany;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\HasMany;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\MorphMany;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\MorphTo;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Table;
+use TimoCuijpers\LaravelControllersGenerator\Enums\ColumnTypeEnum;
+use TimoCuijpers\LaravelControllersGenerator\Helpers\NamingHelper;
 use Illuminate\Support\Str;
 
 /**
@@ -121,7 +121,7 @@ trait DBALable
                     )
                 ),
                 static function (string $column): bool {
-                    foreach (config('models-generator.exclude_columns', []) as $pattern) {
+                    foreach (config('controllers-generator.exclude_columns', []) as $pattern) {
                         if (@preg_match($pattern, '') === false) {
                             $found = $pattern === $column;
                         } else {
@@ -246,7 +246,7 @@ trait DBALable
             }
 
             // Morph many
-            foreach (config('models-generator.morphs') as $table => $relationship) {
+            foreach (config('controllers-generator.morphs') as $table => $relationship) {
                 if ($table == $dbTable->name) {
                     $dbTable->morphMany[] = new MorphMany(
                         NamingHelper::caseRelationName(Str::plural($morphables[$relationship])),
@@ -355,6 +355,6 @@ trait DBALable
      */
     private function getArrayWithPrimaryKey(Table $dbTable): array
     {
-        return $dbTable->primaryKey !== null ? (config('models-generator.primary_key_in_fillable', false) && ! empty($dbTable->primaryKey->name) ? [] : [$dbTable->primaryKey->name]) : [];
+        return $dbTable->primaryKey !== null ? (config('controllers-generator.primary_key_in_fillable', false) && ! empty($dbTable->primaryKey->name) ? [] : [$dbTable->primaryKey->name]) : [];
     }
 }

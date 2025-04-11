@@ -41,12 +41,12 @@
             "src/helpers.php"
         ],
         "psr-4": {
-            "GiacomoMasseroni\\LaravelModelsGenerator\\": "src/"
+            "TimoCuijpers\\LaravelControllersGenerator\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "GiacomoMasseroni\\LaravelModelsGenerator\\Tests\\": "tests/",
+            "TimoCuijpers\\LaravelControllersGenerator\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -91,10 +91,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "GiacomoMasseroni\\LaravelModelsGenerator\\LaravelModelsGeneratorServiceProvider"
+                "TimoCuijpers\\LaravelControllersGenerator\\LaravelControllersGeneratorServiceProvider"
             ],
             "aliases": {
-                "LaravelModelsGenerator": "GiacomoMasseroni\\LaravelModelsGenerator\\Facades\\LaravelModelsGenerator"
+                "LaravelControllersGenerator": "TimoCuijpers\\LaravelControllersGenerator\\Facades\\LaravelControllersGenerator"
             }
         }
     },

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator\Entities;
+namespace TimoCuijpers\LaravelControllersGenerator\Entities;
 
 class PrimaryKey
 {

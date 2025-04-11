@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator\Facades;
+namespace TimoCuijpers\LaravelControllersGenerator\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \GiacomoMasseroni\LaravelModelsGenerator\LaravelModelsGenerator
+ * @see \TimoCuijpers\LaravelControllersGenerator\LaravelControllersGenerator
  */
 class LaravelControllersGenerator extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \GiacomoMasseroni\LaravelModelsGenerator\LaravelControllersGenerator::class;
+        return \TimoCuijpers\LaravelControllersGenerator\LaravelControllersGenerator::class;
     }
 }

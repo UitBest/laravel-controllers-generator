@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-// config for GiacomoMasseroni/LaravelModelsGenerator
-use GiacomoMasseroni\LaravelModelsGenerator\Enums\RelationshipsNameCaseTypeEnum;
+// config for TimoCuijpers/LaravelControllersGenerator
+use TimoCuijpers\LaravelControllersGenerator\Enums\RelationshipsNameCaseTypeEnum;
 
 return [
     'clean_models_directory_before_generation' => true,

@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator;
+namespace TimoCuijpers\LaravelControllersGenerator;
 
-use GiacomoMasseroni\LaravelControllersGenerator\Commands\LaravelControllersGeneratorCommand;
-use GiacomoMasseroni\LaravelModelsGenerator\Commands\LaravelModelsGeneratorAliasCommand;
-use GiacomoMasseroni\LaravelModelsGenerator\Commands\LaravelModelsGeneratorCommand;
+use TimoCuijpers\LaravelControllersGenerator\Commands\LaravelControllersGeneratorCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 

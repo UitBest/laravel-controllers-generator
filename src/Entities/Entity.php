@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator\Entities;
+namespace TimoCuijpers\LaravelControllersGenerator\Entities;
 
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Relationships\BelongsTo;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Relationships\BelongsToMany;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Relationships\HasMany;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Relationships\MorphMany;
-use GiacomoMasseroni\LaravelModelsGenerator\Entities\Relationships\MorphTo;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\BelongsTo;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\BelongsToMany;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\HasMany;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\MorphMany;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\MorphTo;
 
 class Entity
 {
@@ -70,11 +70,11 @@ class Entity
     public function __construct(public string $name, public string $className)
     {
         /** @var array<string> $parts */
-        $parts = explode('\\', (string) config('models-generator.parent', 'Model'));
+        $parts = explode('\\', (string) config('controllers-generator.parent', 'Model'));
         $this->parent = $parts ? end($parts) : 'Model';
-        $this->interfaces = (array) config('models-generator.interfaces', []);
-        $this->traits = (array) config('models-generator.traits', []);
-        $this->showTableProperty = (bool) config('models-generator.table', false);
+        $this->interfaces = (array) config('controllers-generator.interfaces', []);
+        $this->traits = (array) config('controllers-generator.traits', []);
+        $this->showTableProperty = (bool) config('controllers-generator.table', false);
         $this->className = (string) implode(array_map('ucfirst', explode('.' ,$this->className)));
     }
 
@@ -98,7 +98,7 @@ class Entity
         $this->showTimestampsProperty = false;
         $this->parent = 'Base'.$this->className;
         $this->abstract = false;
-        $this->namespace = (string) config('models-generator.namespace', 'App\Models');
+        $this->namespace = (string) config('controllers-generator.namespace', 'App\Models');
         $this->imports = [$this->namespace.'\\Base\\'.$this->className.' as Base'.$this->className];
     }
 }

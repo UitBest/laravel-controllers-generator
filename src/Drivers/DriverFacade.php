@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace GiacomoMasseroni\LaravelModelsGenerator\Drivers;
+namespace TimoCuijpers\LaravelControllersGenerator\Drivers;
 
 use Doctrine\DBAL\Exception;
-use GiacomoMasseroni\LaravelModelsGenerator\Contracts\DriverConnectorInterface;
-use GiacomoMasseroni\LaravelModelsGenerator\Exceptions\DatabaseDriverNotFound;
+use TimoCuijpers\LaravelControllersGenerator\Contracts\DriverConnectorInterface;
+use TimoCuijpers\LaravelControllersGenerator\Exceptions\DatabaseDriverNotFound;
 
 class DriverFacade
 {
