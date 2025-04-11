@@ -19,8 +19,6 @@ abstract class Writer implements WriterInterface
         $search = [
             '{{strict}}',
             '{{namespace}}',
-            '{{properties}}',
-            '{{rules}}',
             '{{abstract}}',
             '{{className}}',
             '{{imports}}',
@@ -30,8 +28,6 @@ abstract class Writer implements WriterInterface
         $replace = [
             $this->strict(),
             $this->namespace(),
-            $this->properties(),
-            $this->rules(),
             $this->abstract(),
             $this->className,
             $this->imports(),
@@ -46,23 +42,7 @@ abstract class Writer implements WriterInterface
 
     abstract public function abstract(): string;
 
-    abstract public function primaryKey(): string;
-
-    abstract public function fillable(): string;
-
-    abstract public function hidden(): string;
-
     abstract public function imports(): string;
-
-    abstract public function properties(): string;
-
-    abstract public function rules(): string;
-
-    abstract public function casts(): string;
-
-    abstract public function relationships(): string;
-
-    // abstract public function body(): string;
 
     abstract public function parent(): string;
 
@@ -78,7 +58,7 @@ abstract class Writer implements WriterInterface
 
     public function body(): string
     {
-        return $this->traits().$this->table().$this->primaryKey().$this->timestamps().$this->fillable().$this->rules().$this->hidden().$this->casts().$this->relationships();
+        return $this->traits().$this->table();
     }
 
     public function table(): string
@@ -97,31 +77,5 @@ abstract class Writer implements WriterInterface
         $this->prevElementWasNotEmpty = false;
 
         return '';
-    }
-
-    public function timestamps(): string
-    {
-        $content = '';
-        if ($this->prevElementWasNotEmpty) {
-            $content = "\n";
-        }
-
-        $this->prevElementWasNotEmpty = true;
-
-        if ($this->entity->showTimestampsProperty && $this->entity->timestamps) {
-            $timestampsFields = config('controllers-generator.timestamps.fields', []);
-            if (! empty($timestampsFields['created_at'])) {
-                $content .= "\n".$this->spacer.'public const CREATED_AT = \''.$timestampsFields['created_at'].'\';'."\n";
-            }
-            if (! empty($timestampsFields['updated_at'])) {
-                $content .= "\n".$this->spacer.'public const UPDATED_AT = \''.$timestampsFields['updated_at'].'\';'."\n";
-            }
-
-            if (! empty(config('controllers-generator.timestamps.format', null))) {
-                $content .= "\n".$this->spacer.'protected $dateFormat = \''.config('controllers-generator.timestamps.format').'\';'."\n";
-            }
-        }
-
-        return $this->entity->showTimestampsProperty ? $content."\n".$this->spacer.'public $timestamps = '.($this->entity->timestamps ? 'true' : 'false').';' : '';
     }
 }

@@ -18,21 +18,5 @@ interface WriterInterface
 
     public function table(): string;
 
-    public function primaryKey(): string;
-
-    public function timestamps(): string;
-
-    public function fillable(): string;
-
-    public function hidden(): string;
-
     public function imports(): string;
-
-    public function properties(): string;
-
-    public function rules(): string;
-
-    public function casts(): string;
-
-    public function relationships(): string;
 }

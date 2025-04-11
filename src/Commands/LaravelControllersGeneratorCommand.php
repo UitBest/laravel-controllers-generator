@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Filesystem\Filesystem;
 use TimoCuijpers\LaravelControllersGenerator\Drivers\DriverFacade;
 use TimoCuijpers\LaravelControllersGenerator\Entities\Entity;
-use TimoCuijpers\LaravelControllersGenerator\Entities\Table;
 use TimoCuijpers\LaravelControllersGenerator\Exceptions\DatabaseDriverNotFound;
 use TimoCuijpers\LaravelControllersGenerator\Writers\WriterInterface;
 
@@ -74,7 +73,6 @@ class LaravelControllersGeneratorCommand extends Command
                 if ($createBaseClass) {
                     $baseClassesPath = $path.DIRECTORY_SEPARATOR.'Base';
                     $this->createBaseClassesFolder($baseClassesPath);
-                    $dbEntity->abstract = config('controllers-generator.base_files.abstract', false);
                     $dbEntity->namespace = config('controllers-generator.namespace', 'App\Models').'\\Base';
                     $fileName = $dbEntity->className.'.php';
                     $fileSystem->put($baseClassesPath.DIRECTORY_SEPARATOR.$fileName, $this->modelContent($dbEntity->className, $dbEntity));
@@ -121,43 +119,11 @@ class LaravelControllersGeneratorCommand extends Command
                 $arImports[] = config('controllers-generator.parent', 'Illuminate\Database\Eloquent\Model');
             }
 
-            if (count($dbEntity->belongsTo) > 0) {
-                $arImports[] = \Illuminate\Database\Eloquent\Relations\BelongsTo::class;
-            }
-
-            if (count($dbEntity->hasMany) > 0) {
-                $arImports[] = \Illuminate\Database\Eloquent\Relations\HasMany::class;
-            }
-
-            if (count($dbEntity->belongsToMany) > 0) {
-                $arImports[] = \Illuminate\Database\Eloquent\Relations\BelongsToMany::class;
-            }
-
-            if (count($dbEntity->morphTo) > 0) {
-                $arImports[] = \Illuminate\Database\Eloquent\Relations\MorphTo::class;
-            }
-
-            if (count($dbEntity->morphMany) > 0) {
-                $arImports[] = \Illuminate\Database\Eloquent\Relations\MorphMany::class;
-            }
-
-            foreach ($dbEntity->traits as $trait) {
-                $arImports[] = $trait;
-            }
-
-            foreach ($dbEntity->interfaces as $interface) {
-                $arImports[] = $interface;
-            }
-
             if ($dbEntity->softDeletes) {
                 $arImports[] = SoftDeletes::class;
             }
 
             $dbEntity->imports = array_merge($dbEntity->imports, $arImports);
-
-            if ($dbEntity instanceof Table) {
-                $dbEntity->fixRelationshipsName();
-            }
 
             $versionedWriter = 'TimoCuijpers\LaravelControllersGenerator\Writers\Laravel'.$this->resolveLaravelVersion().'\\Writer';
             /** @var WriterInterface $writer */
