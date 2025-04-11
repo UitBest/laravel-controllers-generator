@@ -8,6 +8,7 @@ use Doctrine\DBAL\Exception;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Filesystem\Filesystem;
+use Str;
 use TimoCuijpers\LaravelControllersGenerator\Drivers\DriverFacade;
 use TimoCuijpers\LaravelControllersGenerator\Entities\Entity;
 use TimoCuijpers\LaravelControllersGenerator\Exceptions\DatabaseDriverNotFound;
@@ -35,43 +36,68 @@ class LaravelControllersGeneratorCommand extends Command
      */
     public function handle(): int
     {
-        $connection = $this->getConnection();
-        $schema = $this->getSchema($connection);
-        $this->singleEntityToCreate = $this->getTable();
-
-        $connector = DriverFacade::instance(
-            (string) config('database.connections.'.config('database.default').'.driver'),
-            $connection,
-            $schema,
-            $this->singleEntityToCreate
-        );
-
-        $dbTables = $connector->listTables();
+//        $connection = $this->getConnection();
+//        $schema = $this->getSchema($connection);
+//        $this->singleEntityToCreate = $this->getTable();
+//
+//        $connector = DriverFacade::instance(
+//            (string) config('database.connections.'.config('database.default').'.driver'),
+//            $connection,
+//            $schema,
+//            $this->singleEntityToCreate
+//        );
+//
+//        $dbTables = $connector->listTables();
 
         $fileSystem = new Filesystem;
 
+        $models = $fileSystem->allFiles(config('controllers-generator.models_path', app_path('Models')));
+
         $path = $this->sanitizeBaseClassesPath(config('controllers-generator.path', app_path('Http/Controllers')));
 
+        $modelsSubdirectory = config('controllers-generator.models_sub_directory', '');
+
         if (config('controllers-generator.clean_controllers_directory_before_generation', true)) {
-            $fileSystem->cleanDirectory($path);
+//            $fileSystem->cleanDirectory($path);
         }
 
-        foreach ($dbTables as $name => $dbEntity) {
-            if ($this->entityToGenerate($name)) {
+        foreach ($models as $index => $model) {
+            $modelContent = $model->getContents();
+
+            $modelName = Str::remove('.php', $model->getFilename());
+
+            $this->call('make:controller', [
+                'name' => $modelsSubdirectory.$modelName.'Controller',
+                '--model' => $modelsSubdirectory.$modelName,
+                '--force' => true,
+                '--resource' => true,
+            ]);
+
+            $tableIdentifier = Str::betweenFirst($modelContent, 'protected $table = \'', '\';');
+
+            $tableIdentifierArray = explode('.', $tableIdentifier);
+
+            $tableName = $tableIdentifierArray[array_key_last($tableIdentifierArray)];
+
+            $routes = $fileSystem->allFiles(config('controllers-generator.routes_path', base_path('routes')));
+
+            dd($routes);
+
+            if (false) {
                 $createBaseClass = config('controllers-generator.base_files.enabled', false);
                 if ($createBaseClass) {
                     $baseClassesPath = $path.DIRECTORY_SEPARATOR.'Base';
                     $this->createBaseClassesFolder($baseClassesPath);
                     $dbEntity->namespace = config('controllers-generator.namespace', 'App\Http\Controllers').'\\Base';
-                    $fileName = $dbEntity->className.'.php';
-                    $fileSystem->put($baseClassesPath.DIRECTORY_SEPARATOR.$fileName, $this->modelContent($dbEntity->className, $dbEntity));
+                    $fileName = $dbEntity->controllerName.'.php';
+                    $fileSystem->put($baseClassesPath.DIRECTORY_SEPARATOR.$fileName, $this->modelContent($dbEntity->controllerName, $dbEntity));
 
                     $dbEntity->cleanForBase();
                 }
 
-                $fileName = $dbEntity->className.'.php';
+                $fileName = $dbEntity->controllerName.'.php';
                 $fileSystem->makeDirectory($path, 0755, true, true);
-                $fileSystem->put($path.DIRECTORY_SEPARATOR.$fileName, $this->modelContent($dbEntity->className, $dbEntity));
+                $fileSystem->put($path.DIRECTORY_SEPARATOR.$fileName, $this->modelContent($dbEntity->controllerName, $dbEntity));
             }
         }
 
@@ -99,7 +125,7 @@ class LaravelControllersGeneratorCommand extends Command
     /**
      * @throws \Exception
      */
-    private function modelContent(string $className, Entity $dbEntity): string
+    private function modelContent(string $controllerName, Entity $dbEntity): string
     {
         $content = file_get_contents($this->getStub());
         if ($content !== false) {
@@ -117,7 +143,7 @@ class LaravelControllersGeneratorCommand extends Command
 
             $versionedWriter = 'TimoCuijpers\LaravelControllersGenerator\Writers\Laravel'.$this->resolveLaravelVersion().'\\Writer';
             /** @var WriterInterface $writer */
-            $writer = new $versionedWriter($className, $dbEntity, $content);
+            $writer = new $versionedWriter($controllerName, $dbEntity, $content);
 
             return $writer->writeModelFile();
         }

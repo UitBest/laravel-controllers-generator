@@ -12,7 +12,7 @@ abstract class Writer implements WriterInterface
 
     public bool $prevElementWasNotEmpty = false;
 
-    public function __construct(public string $className, public Entity $entity, public string $stubContent, protected bool $isBase = false) {}
+    public function __construct(public string $controllerName, public Entity $entity, public string $stubContent, protected bool $isBase = false) {}
 
     public function writeModelFile(): string
     {
@@ -20,7 +20,7 @@ abstract class Writer implements WriterInterface
             '{{strict}}',
             '{{namespace}}',
             '{{abstract}}',
-            '{{className}}',
+            '{{controllerName}}',
             '{{imports}}',
             '{{parent}}',
             '{{body}}',
@@ -29,7 +29,7 @@ abstract class Writer implements WriterInterface
             $this->strict(),
             $this->namespace(),
             $this->abstract(),
-            $this->className,
+            $this->controllerName,
             $this->imports(),
             $this->parent(),
             $this->body(),

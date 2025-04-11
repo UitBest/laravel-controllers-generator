@@ -8,6 +8,8 @@ use TimoCuijpers\LaravelControllersGenerator\Enums\RelationshipsNameCaseTypeEnum
 return [
     'clean_controllers_directory_before_generation' => true,
 
+    'models_path' => app_path('Models'),
+
     /*
     |--------------------------------------------------------------------------
     | Enable generation alias

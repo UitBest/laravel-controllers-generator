@@ -25,7 +25,7 @@ class Entity
 
     public ?string $namespace = null;
 
-    public function __construct(public string $name, public string $className)
+    public function __construct(public string $name, public string $controllerName)
     {
         /** @var array<string> $parts */
         $parts = explode('\\', (string) config('controllers-generator.parent', 'Controller'));
@@ -33,7 +33,7 @@ class Entity
         $this->interfaces = (array) config('controllers-generator.interfaces', []);
         $this->traits = (array) config('controllers-generator.traits', []);
         $this->showTableProperty = (bool) config('controllers-generator.table', false);
-        $this->className = (string) implode(array_map('ucfirst', explode('.', $this->className)));
+        $this->controllerName = (string) implode(array_map('ucfirst', explode('.', $this->controllerName))).'Controller';
     }
 
     public function importLaravelModel(): bool
@@ -45,9 +45,9 @@ class Entity
     {
         $this->interfaces = [];
         $this->showTableProperty = false;
-        $this->parent = 'Base'.$this->className;
+        $this->parent = 'Base'.$this->controllerName;
         $this->abstract = false;
         $this->namespace = (string) config('controllers-generator.namespace', 'App\Http\Controllers');
-        $this->imports = [$this->namespace.'\\Base\\'.$this->className.' as Base'.$this->className];
+        $this->imports = [$this->namespace.'\\Base\\'.$this->controllerName.' as Base'.$this->controllerName];
     }
 }
