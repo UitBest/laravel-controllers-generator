@@ -7,12 +7,12 @@ namespace TimoCuijpers\LaravelControllersGenerator\Drivers\SQLite;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\Column;
+use Illuminate\Support\Facades\DB;
 use TimoCuijpers\LaravelControllersGenerator\Concerns\DBALable;
 use TimoCuijpers\LaravelControllersGenerator\Contracts\DriverConnectorInterface;
 use TimoCuijpers\LaravelControllersGenerator\Drivers\DriverConnector;
 use TimoCuijpers\LaravelControllersGenerator\Entities\Property;
 use TimoCuijpers\LaravelControllersGenerator\Entities\View;
-use Illuminate\Support\Facades\DB;
 
 class Connector extends DriverConnector implements DriverConnectorInterface
 {

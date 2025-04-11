@@ -24,6 +24,7 @@ use Doctrine\DBAL\Types\SmallIntType;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\DBAL\Types\Type;
+use Illuminate\Support\Str;
 use TimoCuijpers\LaravelControllersGenerator\Contracts\DriverConnectorInterface;
 use TimoCuijpers\LaravelControllersGenerator\Entities\Entity;
 use TimoCuijpers\LaravelControllersGenerator\Entities\PrimaryKey;
@@ -36,7 +37,6 @@ use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\MorphTo;
 use TimoCuijpers\LaravelControllersGenerator\Entities\Table;
 use TimoCuijpers\LaravelControllersGenerator\Enums\ColumnTypeEnum;
 use TimoCuijpers\LaravelControllersGenerator\Helpers\NamingHelper;
-use Illuminate\Support\Str;
 
 /**
  * @mixin DriverConnectorInterface
@@ -105,10 +105,10 @@ trait DBALable
             }
 
             foreach ($indexes as $index) {
-                if(!$index->isPrimary() && $index->isUnique()){
-                    foreach ($index->getColumns() as $columnName){
+                if (! $index->isPrimary() && $index->isUnique()) {
+                    foreach ($index->getColumns() as $columnName) {
                         $rules[$columnName][] = 'unique:'.$dbTable->name;
-                    };
+                    }
                 }
             }
 
@@ -157,22 +157,22 @@ trait DBALable
                 };
 
                 $rules[$column->getName()][] = $column->getNotnull() ? 'required' : 'nullable';
-                $rules[$column->getName()][] = 'size:' . ($column->getLength() ?? $column->getPrecision());
+                $rules[$column->getName()][] = 'size:'.($column->getLength() ?? $column->getPrecision());
                 $rules[$column->getName()][] = $fieldType;
 
                 if ($fieldType === 'numeric') {
-                    $rules[$column->getName()][] = 'max_digits:' . $column->getScale();
-                    $rules[$column->getName()][] = 'min_digits:' . ($column->getFixed() ? $column->getScale() : '0');
+                    $rules[$column->getName()][] = 'max_digits:'.$column->getScale();
+                    $rules[$column->getName()][] = 'min_digits:'.($column->getFixed() ? $column->getScale() : '0');
                 }
 
                 $properties[] = new Property(
-                    '$' . $column->getName(),
-                    ($this->typeColumnPropertyMaps[$laravelColumnType] ?? $laravelColumnType) . ($column->getNotnull() ? '' : '|null'),
+                    '$'.$column->getName(),
+                    ($this->typeColumnPropertyMaps[$laravelColumnType] ?? $laravelColumnType).($column->getNotnull() ? '' : '|null'),
                     comment: $column->getComment()
                 ); // $laravelColumnType.($column->getNotnull() ? '' : '|null').' $'.$column->getName();
 
                 // Get morph
-                if (str_ends_with($column->getName(), '_type') && in_array(str_replace('_type', '', $column->getName()) . '_id', array_keys($columns))) {
+                if (str_ends_with($column->getName(), '_type') && in_array(str_replace('_type', '', $column->getName()).'_id', array_keys($columns))) {
                     $dbTable->morphTo[] = new MorphTo(str_replace('_type', '', $column->getName()));
 
                     $morphables[str_replace('_type', '', $column->getName())] = $dbTable->className;
@@ -280,6 +280,7 @@ trait DBALable
 
             return 'datetime';
         }
+
         return match ($type) {
             ColumnTypeEnum::INT => 'integer',
             ColumnTypeEnum::FLOAT => 'float',

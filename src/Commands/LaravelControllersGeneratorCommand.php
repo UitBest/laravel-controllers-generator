@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace TimoCuijpers\LaravelControllersGenerator\Commands;
 
 use Doctrine\DBAL\Exception;
+use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Filesystem\Filesystem;
 use TimoCuijpers\LaravelControllersGenerator\Drivers\DriverFacade;
 use TimoCuijpers\LaravelControllersGenerator\Entities\Entity;
 use TimoCuijpers\LaravelControllersGenerator\Entities\Table;
 use TimoCuijpers\LaravelControllersGenerator\Exceptions\DatabaseDriverNotFound;
 use TimoCuijpers\LaravelControllersGenerator\Writers\WriterInterface;
-use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Filesystem\Filesystem;
 
 class LaravelControllersGeneratorCommand extends Command
 {

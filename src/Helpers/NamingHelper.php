@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace TimoCuijpers\LaravelControllersGenerator\Helpers;
 
-use TimoCuijpers\LaravelControllersGenerator\Enums\RelationshipsNameCaseTypeEnum;
 use Illuminate\Support\Str;
+use TimoCuijpers\LaravelControllersGenerator\Enums\RelationshipsNameCaseTypeEnum;
 
 class NamingHelper
 {
