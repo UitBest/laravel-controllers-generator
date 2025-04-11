@@ -1,18 +1,18 @@
 {
-    "name": "giacomomasseron/laravel-models-generator",
+    "name": "timocuijpers/laravel-controllers-generator",
     "description": "Generate Laravel models from an existing database",
     "keywords": [
-        "Giacomo Masseroni",
+        "Timo Cuijpers",
         "laravel",
-        "laravel-models-generator",
+        "laravel-controllers-generator",
         "eloquent"
     ],
-    "homepage": "https://github.com/giacomomasseron/laravel-models-generator",
+    "homepage": "https://github.com/timocuijpers/laravel-controllers-generator",
     "license": "MIT",
     "authors": [
         {
-            "name": "Giacomo Masseroni",
-            "email": "giacomom@gmail.com",
+            "name": "Timo Cuijpers",
+            "email": "timo@uit.best",
             "role": "Developer"
         }
     ],
@@ -52,7 +52,7 @@
     },
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
-        "clear": "@php vendor/bin/testbench package:purge-laravel-models-generator --ansi",
+        "clear": "@php vendor/bin/testbench package:purge-laravel-controllers-generator --ansi",
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "build": [
             "@composer run prepare",
