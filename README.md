@@ -23,7 +23,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [Giacomo Masseroni](https://github.com/giacomomasseron)
+- [Timo Cuijpers](https://github.com/giacomomasseron)
 - [Timo Cuijpers](https://github.com/timocuijpers)
 - [All Contributors](../../contributors)
 
