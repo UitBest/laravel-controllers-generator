@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace TimoCuijpers\LaravelControllersGenerator\Writers\Laravel9;
 
+use Illuminate\Support\Str;
 use TimoCuijpers\LaravelControllersGenerator\Entities\Property;
 use TimoCuijpers\LaravelControllersGenerator\Writers\WriterInterface;
-use Illuminate\Support\Str;
 
 class Writer extends \TimoCuijpers\LaravelControllersGenerator\Writers\Writer implements WriterInterface
 {

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace TimoCuijpers\LaravelControllersGenerator\Entities;
 
+use Illuminate\Support\Str;
 use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\BelongsTo;
 use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\BelongsToMany;
 use TimoCuijpers\LaravelControllersGenerator\Entities\Relationships\HasMany;
 use TimoCuijpers\LaravelControllersGenerator\Helpers\NamingHelper;
-use Illuminate\Support\Str;
 
 class Table extends Entity
 {

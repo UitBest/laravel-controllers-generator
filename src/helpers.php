@@ -18,8 +18,8 @@ use Doctrine\DBAL\Types\SmallIntType;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\DBAL\Types\Type;
-use TimoCuijpers\LaravelControllersGenerator\Entities\Entity;
 use Illuminate\Support\Str;
+use TimoCuijpers\LaravelControllersGenerator\Entities\Entity;
 
 if (! function_exists('dbEntityNameToModelName')) {
     function dbEntityNameToModelName(string $dbEntityName): string

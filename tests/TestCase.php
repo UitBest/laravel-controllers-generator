@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace TimoCuijpers\LaravelControllersGenerator\Tests;
 
-use TimoCuijpers\LaravelControllersGenerator\LaravelControllersGeneratorServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
+use TimoCuijpers\LaravelControllersGenerator\LaravelControllersGeneratorServiceProvider;
 
 class TestCase extends Orchestra
 {

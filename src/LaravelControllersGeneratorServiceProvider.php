@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace TimoCuijpers\LaravelControllersGenerator;
 
-use TimoCuijpers\LaravelControllersGenerator\Commands\LaravelControllersGeneratorCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use TimoCuijpers\LaravelControllersGenerator\Commands\LaravelControllersGeneratorCommand;
 
 class LaravelControllersGeneratorServiceProvider extends PackageServiceProvider
 {

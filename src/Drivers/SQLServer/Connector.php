@@ -7,12 +7,12 @@ namespace TimoCuijpers\LaravelControllersGenerator\Drivers\SQLServer;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\Column;
+use Illuminate\Support\Facades\DB;
 use TimoCuijpers\LaravelControllersGenerator\Concerns\DBALable;
 use TimoCuijpers\LaravelControllersGenerator\Contracts\DriverConnectorInterface;
 use TimoCuijpers\LaravelControllersGenerator\Drivers\DriverConnector;
 use TimoCuijpers\LaravelControllersGenerator\Entities\Property;
 use TimoCuijpers\LaravelControllersGenerator\Entities\View;
-use Illuminate\Support\Facades\DB;
 
 class Connector extends DriverConnector implements DriverConnectorInterface
 {
@@ -35,13 +35,13 @@ class Connector extends DriverConnector implements DriverConnectorInterface
     {
         /** @phpstan-ignore-next-line */
         return [
-            'dbname'   => $this->schema,
-            'user'     => (string) config('database.connections.' . config('database.default') . '.username'),
-            'password' => (string) config('database.connections.' . config('database.default') . '.password'),
-            'host'     => (string) config('database.connections.' . config('database.default') . '.host'),
-            'driver'   => 'pdo_'.config('database.connections.'.config('database.default').'.driver'),
-            'port'     => config('database.connections.' . config('database.default') . '.port') ?? 1433,
-            'driverOptions' =>[
+            'dbname' => $this->schema,
+            'user' => (string) config('database.connections.'.config('database.default').'.username'),
+            'password' => (string) config('database.connections.'.config('database.default').'.password'),
+            'host' => (string) config('database.connections.'.config('database.default').'.host'),
+            'driver' => 'pdo_'.config('database.connections.'.config('database.default').'.driver'),
+            'port' => config('database.connections.'.config('database.default').'.port') ?? 1433,
+            'driverOptions' => [
                 'TrustServerCertificate' => true,
                 'Encrypt' => true,
             ],
@@ -65,8 +65,8 @@ class Connector extends DriverConnector implements DriverConnectorInterface
             $dbView->casts[$column->getName()] = $this->laravelColumnTypeForCast($this->mapColumnType($column->getType()), $dbView);
 
             $properties[] = new Property(
-                '$' . $column->getName(),
-                ($this->typeColumnPropertyMaps[$laravelColumnType] ?? $laravelColumnType) . ($column->getNotnull() ? '' : '|null'),
+                '$'.$column->getName(),
+                ($this->typeColumnPropertyMaps[$laravelColumnType] ?? $laravelColumnType).($column->getNotnull() ? '' : '|null'),
                 true
             );
         }
@@ -79,7 +79,7 @@ class Connector extends DriverConnector implements DriverConnectorInterface
     {
         /** @var array<string, View> $dbViews */
         $dbViews = [];
-        $sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.VIEWS";
+        $sql = 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.VIEWS';
         $rows = DB::select($sql);
 
         foreach ($rows as $row) {
