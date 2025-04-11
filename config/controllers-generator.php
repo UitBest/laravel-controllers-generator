@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 // config for TimoCuijpers/LaravelControllersGenerator
-use TimoCuijpers\LaravelControllersGenerator\Enums\RelationshipsNameCaseTypeEnum;
 
 return [
     'clean_controllers_directory_before_generation' => true,
