@@ -36,18 +36,18 @@ class LaravelControllersGeneratorCommand extends Command
      */
     public function handle(): int
     {
-//        $connection = $this->getConnection();
-//        $schema = $this->getSchema($connection);
-//        $this->singleEntityToCreate = $this->getTable();
-//
-//        $connector = DriverFacade::instance(
-//            (string) config('database.connections.'.config('database.default').'.driver'),
-//            $connection,
-//            $schema,
-//            $this->singleEntityToCreate
-//        );
-//
-//        $dbTables = $connector->listTables();
+        //        $connection = $this->getConnection();
+        //        $schema = $this->getSchema($connection);
+        //        $this->singleEntityToCreate = $this->getTable();
+        //
+        //        $connector = DriverFacade::instance(
+        //            (string) config('database.connections.'.config('database.default').'.driver'),
+        //            $connection,
+        //            $schema,
+        //            $this->singleEntityToCreate
+        //        );
+        //
+        //        $dbTables = $connector->listTables();
 
         $fileSystem = new Filesystem;
 
@@ -58,7 +58,7 @@ class LaravelControllersGeneratorCommand extends Command
         $modelsSubdirectory = config('controllers-generator.models_sub_directory', '');
 
         if (config('controllers-generator.clean_controllers_directory_before_generation', true)) {
-//            $fileSystem->cleanDirectory($path);
+            //            $fileSystem->cleanDirectory($path);
         }
 
         foreach ($models as $index => $model) {
