@@ -7,7 +7,7 @@
         "laravel-controllers-generator",
         "eloquent"
     ],
-    "homepage": "https://github.com/timocuijpers/laravel-controllers-generator",
+    "homepage": "https://github.com/uitbest/laravel-controllers-generator",
     "license": "MIT",
     "authors": [
         {
