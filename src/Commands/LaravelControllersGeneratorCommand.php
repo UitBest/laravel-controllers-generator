@@ -15,10 +15,7 @@ use TimoCuijpers\LaravelControllersGenerator\Writers\WriterInterface;
 
 class LaravelControllersGeneratorCommand extends Command
 {
-    public $signature = 'laravel-controllers-generator:generate
-                        {--s|schema= : The name of the database}
-                        {--c|connection= : The name of the connection}
-                        {--t|table= : The name of the table}';
+    public $signature = 'laravel-controllers-generator:generate';
 
     /**
      * The console command description.
@@ -51,29 +48,21 @@ class LaravelControllersGeneratorCommand extends Command
 
         $dbTables = $connector->listTables();
 
-        $dbViews = config('controllers-generator.generate_views', false) ? $connector->listViews() : [];
-
-        if (count($dbTables) + count($dbViews) == 0) {
-            $this->warn('There are no tables and/or views in the connection you used. Please check the config file.');
-
-            return self::FAILURE;
-        }
-
         $fileSystem = new Filesystem;
 
-        $path = $this->sanitizeBaseClassesPath(config('controllers-generator.path', app_path('Models')));
+        $path = $this->sanitizeBaseClassesPath(config('controllers-generator.path', app_path('Http/Controllers')));
 
-        if (config('controllers-generator.clean_models_directory_before_generation', true)) {
+        if (config('controllers-generator.clean_controllers_directory_before_generation', true)) {
             $fileSystem->cleanDirectory($path);
         }
 
-        foreach (array_merge($dbTables, $dbViews) as $name => $dbEntity) {
+        foreach ($dbTables as $name => $dbEntity) {
             if ($this->entityToGenerate($name)) {
                 $createBaseClass = config('controllers-generator.base_files.enabled', false);
                 if ($createBaseClass) {
                     $baseClassesPath = $path.DIRECTORY_SEPARATOR.'Base';
                     $this->createBaseClassesFolder($baseClassesPath);
-                    $dbEntity->namespace = config('controllers-generator.namespace', 'App\Models').'\\Base';
+                    $dbEntity->namespace = config('controllers-generator.namespace', 'App\Http\Controllers').'\\Base';
                     $fileName = $dbEntity->className.'.php';
                     $fileSystem->put($baseClassesPath.DIRECTORY_SEPARATOR.$fileName, $this->modelContent($dbEntity->className, $dbEntity));
 
@@ -81,11 +70,12 @@ class LaravelControllersGeneratorCommand extends Command
                 }
 
                 $fileName = $dbEntity->className.'.php';
+                $fileSystem->makeDirectory($path, 0755, true, true);
                 $fileSystem->put($path.DIRECTORY_SEPARATOR.$fileName, $this->modelContent($dbEntity->className, $dbEntity));
             }
         }
 
-        $this->info($this->singleEntityToCreate === null ? 'Check out your models' : "Check out your {$this->singleEntityToCreate} model");
+        $this->info($this->singleEntityToCreate === null ? 'Check out your controllers' : "Check out your {$this->singleEntityToCreate} controller");
 
         return self::SUCCESS;
     }
@@ -116,7 +106,7 @@ class LaravelControllersGeneratorCommand extends Command
             $arImports = [];
 
             if ($dbEntity->importLaravelModel()) {
-                $arImports[] = config('controllers-generator.parent', 'Illuminate\Database\Eloquent\Model');
+                $arImports[] = config('controllers-generator.parent', 'App\Http\Controllers\Controller');
             }
 
             if ($dbEntity->softDeletes) {
@@ -137,19 +127,17 @@ class LaravelControllersGeneratorCommand extends Command
 
     private function getConnection(): string
     {
-        return $this->option('connection') ?: config('database.default');
+        return config('database.default');
     }
 
     private function getSchema(string $connection): string
     {
-        return $this->option('schema') ?: config('database.connections.'.$connection.'.database');
+        return config('database.connections.'.$connection.'.database');
     }
 
     private function getTable(): ?string
     {
-        $table = $this->option('table');
-
-        return is_string($table) ? $table : null;
+        return null;
     }
 
     private function entityToGenerate(string $entity): bool

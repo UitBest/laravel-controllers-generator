@@ -48,7 +48,7 @@ abstract class Writer implements WriterInterface
 
     public function namespace(): string
     {
-        return $this->entity->namespace ?? (string) config('controllers-generator.namespace', 'App\Models');
+        return $this->entity->namespace ?? (string) config('controllers-generator.namespace', 'App\Http\Controllers');
     }
 
     public function strict(): string

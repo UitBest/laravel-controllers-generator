@@ -19,7 +19,7 @@ class Writer extends \TimoCuijpers\LaravelControllersGenerator\Writers\Writer im
 
     public function parent(): string
     {
-        $parent = $this->entity->parent ?? 'Model';
+        $parent = $this->entity->parent ?? 'Controller';
 
         if (count($this->entity->interfaces) > 0) {
             $this->prevElementWasNotEmpty = true;

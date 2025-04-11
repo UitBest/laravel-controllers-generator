@@ -6,24 +6,7 @@ declare(strict_types=1);
 use TimoCuijpers\LaravelControllersGenerator\Enums\RelationshipsNameCaseTypeEnum;
 
 return [
-    'clean_models_directory_before_generation' => true,
-
-    'generate_views' => false,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Generate rules
-    |--------------------------------------------------------------------------
-    |
-    | Generate rules for the model
-    | Ex.
-    | $rules = [
-    |       'column_name' => 'required|integer',
-    |       'column_name2' => 'required|integer',
-    | ];
-    |
-    */
-    'rules' => false,
+    'clean_controllers_directory_before_generation' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -72,51 +55,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Models $primaryKey property
-    |--------------------------------------------------------------------------
-    |
-    | Add $primaryKey model property
-    |
-    */
-    'primary_key' => true,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Primary Key in Fillable
-    |--------------------------------------------------------------------------
-    |
-    | Add primary key column field to fillable array
-    |
-    */
-    'primary_key_in_fillable' => true,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Timestamps customized fields
-    |--------------------------------------------------------------------------
-    |
-    | Change the default Laravel timestamps fields.
-    | Ex. created_at => 'created_at',
-    |     updated_at => 'updated_at'
-    |
-    */
-    'timestamps' => [
-        'fields' => [
-            'created_at' => null,
-            'updated_at' => null,
-        ],
-        'format' => null,
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Models path
     |--------------------------------------------------------------------------
     |
     | Where the models will be created
     |
     */
-    'path' => app_path('Models'),
+    'path' => app_path('Http/Controllers/Generated'),
 
     /*
     |--------------------------------------------------------------------------
@@ -126,7 +71,7 @@ return [
     | The namespace of the generated models
     |
     */
-    'namespace' => 'App\Models',
+    'namespace' => 'App\Http\Controllers\Generated',
 
     /*
     |--------------------------------------------------------------------------
@@ -136,7 +81,7 @@ return [
     | The parent class of the generated models
     |
     */
-    'parent' => Illuminate\Database\Eloquent\Model::class,
+    'parent' => App\Http\Controllers\Controller::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -155,16 +100,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Table prefix
-    |--------------------------------------------------------------------------
-    |
-    | Remove table prefix value from laravel model name
-    |
-    */
-    'table_prefix' => '',
-
-    /*
-    |--------------------------------------------------------------------------
     | Add comments in PHPDocs
     |--------------------------------------------------------------------------
     |
@@ -172,35 +107,6 @@ return [
     |
     */
     'add_comments_in_phpdocs' => true,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships name case type
-    |--------------------------------------------------------------------------
-    |
-    | Define the way relation name are created.
-    | Possible values: "camel_case", "snake_case"
-    |
-    */
-    'relationships_name_case_type' => RelationshipsNameCaseTypeEnum::CAMEL_CASE,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Polymorphic relationships
-    |--------------------------------------------------------------------------
-    |
-    | Define polymorphic relationships
-    |
-    | [
-    |       'table_name' => 'polymorphic_type',
-    |
-    |       ex. for official laravel documentation
-    |       'posts' => 'commentable',
-    | ]
-    |
-    */
-    'morphs' => [
-    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -222,19 +128,6 @@ return [
     |
     */
     'traits' => [
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Enums
-    |--------------------------------------------------------------------------
-    |
-    | Enum(s) implemented by all models
-    | Ex.
-    |   'column' => EnumClass::class,
-    |
-    */
-    'enums_casting' => [
     ],
 
     /*

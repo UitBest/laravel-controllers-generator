@@ -28,8 +28,8 @@ class Entity
     public function __construct(public string $name, public string $className)
     {
         /** @var array<string> $parts */
-        $parts = explode('\\', (string) config('controllers-generator.parent', 'Model'));
-        $this->parent = $parts ? end($parts) : 'Model';
+        $parts = explode('\\', (string) config('controllers-generator.parent', 'Controller'));
+        $this->parent = $parts ? end($parts) : 'Controller';
         $this->interfaces = (array) config('controllers-generator.interfaces', []);
         $this->traits = (array) config('controllers-generator.traits', []);
         $this->showTableProperty = (bool) config('controllers-generator.table', false);
@@ -47,7 +47,7 @@ class Entity
         $this->showTableProperty = false;
         $this->parent = 'Base'.$this->className;
         $this->abstract = false;
-        $this->namespace = (string) config('controllers-generator.namespace', 'App\Models');
+        $this->namespace = (string) config('controllers-generator.namespace', 'App\Http\Controllers');
         $this->imports = [$this->namespace.'\\Base\\'.$this->className.' as Base'.$this->className];
     }
 }
